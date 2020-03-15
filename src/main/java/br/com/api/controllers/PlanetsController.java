@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +40,7 @@ public class PlanetsController {
 	    @ApiResponse(code = 400, message = "Erro de validação de campos"),
 	})
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody PlanetDto dto) {
+	public ResponseEntity<?> create(@Valid @RequestBody PlanetDto dto) {
 		Integer qtd = planetsService.countFilms(dto.getName());
 		Planet planet = planetsService.create(dto);
 		
