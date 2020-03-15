@@ -57,12 +57,19 @@ public class PlanetsServiceImpl implements PlanetsService {
 	 */
 	@Override
 	public Planet findById(final String id) {
-		Optional<Planet> planet = planetsRepository.findById(id);
+		Optional<Planet> planet = findOne(id);
 		
 		planet = findByIdIfPlanetIsNull(id, planet);
 
 		return planet
 				.orElseThrow(() -> new ObjectNotFoundException(OBJECT_NOT_FOUND));
+	}
+
+	/**
+	 * Busca um planeta por id.
+	 */
+	private Optional<Planet> findOne(final String id) {
+		return planetsRepository.findById(id);
 	}
 
 	/**
@@ -127,6 +134,8 @@ public class PlanetsServiceImpl implements PlanetsService {
 	 */
 	@Override
 	public void delete(String id) {
+		findOne(id)
+			.orElseThrow(() -> new ObjectNotFoundException(OBJECT_NOT_FOUND));
 		planetsRepository.deleteById(id);
 	}
 

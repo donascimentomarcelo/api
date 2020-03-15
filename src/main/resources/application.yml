@@ -10,3 +10,9 @@ integration:
     planets: 
       https://swapi.co/api/planets/
     
+swagger:
+  basePackege: br.com.api.controllers
+  pathSelectorsRegex: /.*
+  title: Doc API
+  description: Documentação API Star Wars
+  version: 1.0.0
