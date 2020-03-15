@@ -1,9 +1,12 @@
 package br.com.api.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SwapiResultDto {
+public class SwapiResultDto implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String count;
 	private String next;

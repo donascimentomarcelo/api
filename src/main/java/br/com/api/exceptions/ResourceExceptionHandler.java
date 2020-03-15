@@ -19,7 +19,14 @@ public class ResourceExceptionHandler {
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), "object not found.", e.getMessage(), req.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
-	
+
+	@ExceptionHandler(IntegrationException.class)
+	public ResponseEntity<StandardError> integrationException(IntegrationException e, HttpServletRequest req) {
+		
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.SERVICE_UNAVAILABLE.value(), "integration error.", e.getMessage(), req.getRequestURI());
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(error);
+	}
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validateFieldMessages(MethodArgumentNotValidException e, HttpServletRequest req) {
 		
