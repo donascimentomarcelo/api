@@ -3,11 +3,10 @@ package br.com.api.services;
 import java.util.List;
 
 import br.com.api.domain.Planet;
-import br.com.api.dto.PlanetDto;
 
 public interface PlanetsService {
 
-	Planet create(PlanetDto dto);
+	Planet create(Planet planet);
 
 	Integer countFilms(String name);
 

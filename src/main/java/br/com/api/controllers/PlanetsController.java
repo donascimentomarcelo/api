@@ -41,8 +41,9 @@ public class PlanetsController {
 	})
 	@PostMapping
 	public ResponseEntity<?> create(@Valid @RequestBody PlanetDto dto) {
-		Integer qtd = planetsService.countFilms(dto.getName());
-		Planet planet = planetsService.create(dto);
+		Planet object = dto.fromEntity();
+		Integer qtd = planetsService.countFilms(object.getName());
+		Planet planet = planetsService.create(object);
 		
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()

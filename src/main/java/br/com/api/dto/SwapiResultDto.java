@@ -13,7 +13,7 @@ public class SwapiResultDto implements Serializable {
 	private String previous;
 	private List<SwapiPlanetDto> results = new ArrayList<>();
 	
-	private SwapiResultDto() {
+	public SwapiResultDto() {
 		
 	}
 

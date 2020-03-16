@@ -1,7 +1,7 @@
 package br.com.api.services.impl;
 
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -9,14 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.api.dto.SwapiPlanetDto;
 import br.com.api.dto.SwapiResultDto;
-import br.com.api.exceptions.IntegrationException;
 import br.com.api.services.IntegrationsService;
 
 @Service
@@ -58,34 +56,10 @@ public class IntegrationsServiceImpl implements IntegrationsService {
 	}
 	
 	/**
-	 * Faz integração com a API https://swapi.co/ para buscar um planeta por id.
+	 * Configura headers
+	 * @param url
+	 * @return
 	 */
-	@Override
-	public SwapiPlanetDto findById(final String id) {
-		RestTemplate restTemplate = new RestTemplate();
-
-		ResponseEntity<SwapiPlanetDto> result = null;
-		try {
-			URI url = new URI(String.format("%s%s", swapiOiPlanet, id));
-			RequestEntity<?> request = setHeaderConfiguration(url);
-
-			result = restTemplate.exchange(
-					url, 
-					HttpMethod.GET, 
-					request,
-					SwapiPlanetDto.class);
-
-		} catch (HttpClientErrorException e) {
-			return null;
-			
-		} catch (RestClientException | URISyntaxException e ) {
-
-			throw new IntegrationException(e.getMessage());
-		}
-
-		return result.getBody();
-	}
-
 	private RequestEntity<Void> setHeaderConfiguration(final URI url) {
 		return RequestEntity
 				.get(url)
@@ -94,12 +68,29 @@ public class IntegrationsServiceImpl implements IntegrationsService {
 				.build();
 	}
 
+	/**
+	 * Configura url
+	 * @param key
+	 * @param value
+	 * @return
+	 */
 	private URI getUrl(final String key, final String value) {
 		return UriComponentsBuilder
 				.fromHttpUrl(swapiOiPlanet)
 				.queryParam(key, value)
 				.build()
 				.toUri();
+	}
+
+	
+	/**
+	 * Acessa a API https://swapi.co/ e conta quantas vezes o planeta apareceu em cada filme.
+	 */
+	@Override
+	public Integer countFilms(String name) {
+		List<SwapiPlanetDto> results = findPlanetByName(name)
+													.getResults();
+		return results.size() > 0 ?  results.get(0).getFilms().size() : 0;	
 	}
 
 }
