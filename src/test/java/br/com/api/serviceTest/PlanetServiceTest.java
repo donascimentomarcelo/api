@@ -2,6 +2,7 @@ package br.com.api.serviceTest;
 
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import br.com.api.domain.Planet;
+import br.com.api.exceptions.ObjectNotFoundException;
 import br.com.api.repositories.PlanetsRepository;
 import br.com.api.services.PlanetsService;
 import br.com.api.services.impl.PlanetsServiceImpl;
@@ -53,5 +55,19 @@ public class PlanetServiceTest {
 	@Test
 	public void itShouldDeleteAPlanet() {
 		planetsService.delete(ID);
+	}
+	
+	@Test
+	public void itShouldPrintExceptionWhenPlanetNotFoundById() {
+		Assertions.assertThrows(ObjectNotFoundException.class, () -> {
+			planetsService.findById(ID);
+		});
+	}
+
+	@Test
+	public void itShouldPrintExceptionWhenPlanetNotFoundByName() {
+		Assertions.assertThrows(ObjectNotFoundException.class, () -> {
+			planetsService.findByName(TESTE);
+		});
 	}
 }
