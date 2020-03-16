@@ -13,6 +13,7 @@
 - Após a clonagem, é necessário acessar a pasta do projeto e executar os comandos abaixo:
 - mvn clean install
 - docker-compose up
+- Pronto! O projeto estará rodando no http://localhost:8080
 
 ## Documentação
 
